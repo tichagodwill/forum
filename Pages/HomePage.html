@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Home</title>
+  <link href="../Style/HomePage.css" rel="stylesheet" />
+
+</head>
+
+<body>
+  <div class="card">
+    <div class="content">
+      {{ template "nav" . }}
+      <main class="HomeMain">
+        <div class="Category">
+        <!--  <div class="customCheckBoxHolder">-->
+            <form class="customCheckBoxHolder" id="Filter" action="/HomePage" method="POST">
+            <input type="checkbox" id="cCB1" class="customCheckBoxInput" name="categories" value="News" />
+            <label for="cCB1" class="customCheckBoxWrapper">
+              <div class="customCheckBox">
+                <div class="inner">News</div>
+              </div>
+            </label>
+            <input type="checkbox" id="cCB2" class="customCheckBoxInput" name="categories" value="Technology" />
+            <label for="cCB2" class="customCheckBoxWrapper">
+              <div class="customCheckBox">
+                <div class="inner">Technology</div>
+              </div>
+            </label>
+            <input type="checkbox" id="cCB3" class="customCheckBoxInput" name="categories" value="Sports" />
+            <label for="cCB3" class="customCheckBoxWrapper">
+              <div class="customCheckBox">
+                <div class="inner">Sports</div>
+              </div>
+            </label>
+            <input type="checkbox" id="cCB4" class="customCheckBoxInput" name="categories" value="Health" />
+            <label for="cCB4" class="customCheckBoxWrapper">
+              <div class="customCheckBox">
+                <div class="inner">Health</div>
+              </div>
+            </label>
+            <input type="checkbox" id="cCB5" class="customCheckBoxInput" name="categories" value="Education" />
+            <label for="cCB5" class="customCheckBoxWrapper">
+              <div class="customCheckBox">
+                <div class="inner">Education</div>
+              </div>
+            </label>
+            <input type="checkbox" id="cCB6" class="customCheckBoxInput" name="categories" value="Arts" />
+            <label for="cCB6" class="customCheckBoxWrapper">
+              <div class="customCheckBox">
+                <div class="inner">Arts</div>
+              </div>
+            </label>
+            <input type="checkbox" id="cCB7" class="customCheckBoxInput" name="categories" value="Travel" />
+            <label for="cCB7" class="customCheckBoxWrapper">
+              <div class="customCheckBox">
+                <div class="inner">Travel</div>
+              </div>
+            </label>
+            <input type="checkbox" id="cCB8" class="customCheckBoxInput" name="categories" value="Food" />
+            <label for="cCB8" class="customCheckBoxWrapper">
+              <div class="customCheckBox">
+                <div class="inner">Food</div>
+              </div>
+            </label>
+            <input type="checkbox" id="cCB9" class="customCheckBoxInput" name="categories" value="Business" />
+            <label for="cCB9" class="customCheckBoxWrapper">
+              <div class="customCheckBox">
+                <div class="inner">Business</div>
+              </div>
+            </label>
+            <input type="checkbox" id="cCB10" class="customCheckBoxInput" name="categories" value="Science" />
+            <label for="cCB10" class="customCheckBoxWrapper">
+              <div class="customCheckBox">
+                <div class="inner">Science</div>
+              </div>
+            </label>
+            <input type="checkbox" id="cCB11" class="customCheckBoxInput" name="categories" value="Lifestyle" />
+            <label for="cCB11" class="customCheckBoxWrapper">
+              <div class="customCheckBox">
+                <div class="inner">Lifestyle</div>
+              </div>
+            </label>
+            </form>
+          <!--</div>-->
+        </div>
+
+        <div class="Posts">
+          {{range .Posts}}
+          <div class="post">
+            <div class="PostContent">
+              <div class="PostSenderContainer">
+                <div class="SenderImageContainer">
+                  <img src="../ProfileImages/{{.UserImg}}" class="SenderImage" />
+                </div>
+                <div class="CaptionContainer">
+                  <div class="ImageUserName">
+                    <p>{{.UserName}}</p>
+                  </div>
+                  <div class="ImageTime">
+                    <p>{{.Time}}</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="PostContentContainer">
+                <p style="font-size: 18px;">{{.Title}}</p>
+                <p>{{.Content}}</p>
+                <div class="PostImageContainer" style="{{if eq .Image ""}} display: none;{{end}}">
+                  <img class="PostImage" src="../{{.Image}}" />
+                </div>
+              </div>
+
+              <div class="PostBtns">
+                <div class="LikeButtons">
+                  <div class="LikeContainer">
+                    <p id="NumLike{{ .PostId }}">{{ .Like }}</p>
+                    <label class="container">
+                      <input type="checkbox" name="LikeCheckBox" id="Like{{ .PostId }}" value="{{ .PostId }}"
+                        onchange="HandleLike(this,'Like')" />
+                      <svg class="LikeSVG" id="LikeSVG{{.PostId}}" value="{{.PostId}}" version="1.1" viewBox="0 0 32 32"
+                        xml:space="preserve" xmlns="http://www.w3.org/2000/svg"
+                        xmlns:xlink="http://www.w3.org/1999/xlink">
+                        <path
+                          d="M29.845,17.099l-2.489,8.725C26.989,27.105,25.804,28,24.473,28H11c-0.553,0-1-0.448-1-1V13  c0-0.215,0.069-0.425,0.198-0.597l5.392-7.24C16.188,4.414,17.05,4,17.974,4C19.643,4,21,5.357,21,7.026V12h5.002  c1.265,0,2.427,0.579,3.188,1.589C29.954,14.601,30.192,15.88,29.845,17.099z"
+                          id="XMLID_254_"></path>
+                        <path
+                          d="M7,12H3c-0.553,0-1,0.448-1,1v14c0,0.552,0.447,1,1,1h4c0.553,0,1-0.448,1-1V13C8,12.448,7.553,12,7,12z   M5,25.5c-0.828,0-1.5-0.672-1.5-1.5c0-0.828,0.672-1.5,1.5-1.5c0.828,0,1.5,0.672,1.5,1.5C6.5,24.828,5.828,25.5,5,25.5z"
+                          id="XMLID_256_"></path>
+                      </svg>
+                    </label>
+                  </div>
+                  <div class="DislikeContainer">
+                    <p id="NumDislike{{ .PostId }}">{{.Dislike}}</p>
+                    <label class="container">
+                      <input type="checkbox" name="LikeCheckBox" id="Dislike{{ .PostId }}" value="{{ .PostId }}"
+                        onchange="HandleLike(this,'Dislike')" />
+                      <svg class="LikeSVG" id="DislikeSVG{{.PostId}}" value="{{.PostId}}" id="Glyph" version="1.1"
+                        viewBox="0 0 32 32" xml:space="preserve" xmlns="http://www.w3.org/2000/svg"
+                        xmlns:xlink="http://www.w3.org/1999/xlink">
+                        <path
+                          d="M2.156,14.901l2.489-8.725C5.012,4.895,6.197,4,7.528,4h13.473C21.554,4,22,4.448,22,5v14  c0,0.215-0.068,0.425-0.197,0.597l-5.392,7.24C15.813,27.586,14.951,28,14.027,28c-1.669,0-3.026-1.357-3.026-3.026V20H5.999  c-1.265,0-2.427-0.579-3.188-1.589C2.047,17.399,1.809,16.12,2.156,14.901z"
+                          id="XMLID_259_"></path>
+                        <path
+                          d="M25.001,20h4C29.554,20,30,19.552,30,19V5c0-0.552-0.446-1-0.999-1h-4c-0.553,0-1,0.448-1,1v14  C24.001,19.552,24.448,20,25.001,20z M27.001,6.5c0.828,0,1.5,0.672,1.5,1.5c0,0.828-0.672,1.5-1.5,1.5c-0.828,0-1.5-0.672-1.5-1.5  C25.501,7.172,26.173,6.5,27.001,6.5z"
+                          id="XMLID_260_"></path>
+                      </svg>
+                    </label>
+                  </div>
+                </div>
+                <div class="CommentDeleteBtnsContainer">
+                  <button class="bookmarkBtn" value="{{ .PostId }}" onclick="ToggleComment(value)">
+                    <span class="IconContainer">
+                      <img class="CommentIcon" src="../Style/Image/comment.png" />
+                    </span>
+                    <p class="Commenttext">Comment</p>
+                  </button>
+                  <button class="Btn Delete" id="DeleteBtn{{ .PostId }}" value="{{ .PostId }}"
+                    onclick="HandleDelete(value)">
+                    <div class="sign">
+                      <svg viewBox="0 0 16 16" class="bi bi-trash3-fill" fill="currentColor" height="18" width="18"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path
+                          d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5">
+                        </path>
+                      </svg>
+                    </div>
+                    <div class="text">Delete</div>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="CommentsContainer HideComments" id="CommentsContainer{{ .PostId }}">
+              <div class="UserComments" id="Comment{{.PostId}}">
+                <h3 class="CommentHeader">Comments</h3>
+                {{range .Comments}}
+                <div class="Comment">
+
+                  <img src="../ProfileImages/{{.ProfileImage}}" class="CommentProfileImage" />
+                  <div class="CommentTextContainer">
+                    <p class="UserNameText">{{.UserName}}</p>
+                    <p class="CommentText">{{.Text}}</p>
+                    <p class="CommentDate">{{.Time}}</p>
+                  </div>
+
+                  <div class="CommentLikeButtons">
+                    <div class="CommentLikeContainer">
+                      <p id="NumCLike{{ .CommentId }}"> {{.CLike}}</p>
+                      <label class="container">
+                        <input type="checkbox" id="CLike{{ .CommentId }}" value="{{ .CommentId }}"
+                          onchange="HandleCommentLike(this,'Like')" />
+                        <svg id="CLikeSVG{{.CommentId}}" class="LikeSVG CommentLikeSVG" id="Glyph" version="1.1"
+                          viewBox="0 0 32 32" xml:space="preserve" xmlns="http://www.w3.org/2000/svg"
+                          xmlns:xlink="http://www.w3.org/1999/xlink">
+                          <path
+                            d="M29.845,17.099l-2.489,8.725C26.989,27.105,25.804,28,24.473,28H11c-0.553,0-1-0.448-1-1V13  c0-0.215,0.069-0.425,0.198-0.597l5.392-7.24C16.188,4.414,17.05,4,17.974,4C19.643,4,21,5.357,21,7.026V12h5.002  c1.265,0,2.427,0.579,3.188,1.589C29.954,14.601,30.192,15.88,29.845,17.099z"
+                            id="XMLID_254_"></path>
+                          <path
+                            d="M7,12H3c-0.553,0-1,0.448-1,1v14c0,0.552,0.447,1,1,1h4c0.553,0,1-0.448,1-1V13C8,12.448,7.553,12,7,12z   M5,25.5c-0.828,0-1.5-0.672-1.5-1.5c0-0.828,0.672-1.5,1.5-1.5c0.828,0,1.5,0.672,1.5,1.5C6.5,24.828,5.828,25.5,5,25.5z"
+                            id="XMLID_256_"></path>
+                        </svg>
+                      </label>
+                    </div>
+                    <div class="CommentDislikeContainer">
+                      <p id="NumCDislike{{ .CommentId }}">{{.CDislike}}</p>
+                      <label class="container">
+                        <input type="checkbox" id="CDislike{{ .CommentId }}" value="{{ .CommentId }}"
+                          onchange="HandleCommentLike(this,'Dislike')"  />
+                        <svg class="LikeSVG DisLikeSVG CommentLikeSVG" id="CDislikeSVG{{.CommentId}}" id="Glyph"
+                          version="1.1" viewBox="0 0 32 32" xml:space="preserve" xmlns="http://www.w3.org/2000/svg"
+                          xmlns:xlink="http://www.w3.org/1999/xlink">
+                          <path
+                            d="M2.156,14.901l2.489-8.725C5.012,4.895,6.197,4,7.528,4h13.473C21.554,4,22,4.448,22,5v14  c0,0.215-0.068,0.425-0.197,0.597l-5.392,7.24C15.813,27.586,14.951,28,14.027,28c-1.669,0-3.026-1.357-3.026-3.026V20H5.999  c-1.265,0-2.427-0.579-3.188-1.589C2.047,17.399,1.809,16.12,2.156,14.901z"
+                            id="XMLID_259_"></path>
+                          <path
+                            d="M25.001,20h4C29.554,20,30,19.552,30,19V5c0-0.552-0.446-1-0.999-1h-4c-0.553,0-1,0.448-1,1v14  C24.001,19.552,24.448,20,25.001,20z M27.001,6.5c0.828,0,1.5,0.672,1.5,1.5c0,0.828-0.672,1.5-1.5,1.5c-0.828,0-1.5-0.672-1.5-1.5  C25.501,7.172,26.173,6.5,27.001,6.5z"
+                            id="XMLID_260_"></path>
+                        </svg>
+                      </label>
+                    </div>
+                  </div>
+
+                </div>
+                {{end}}
+              </div>
+              <div class="Message">
+                <input id="CommentMessage{{.PostId}}" title="Write Message" tabindex="i" pattern="\d+"
+                  placeholder="Message.." class="MsgInput" type="text"/>
+                <div Username="{{.UserName}}" UserId="{{.UserId}}" id="Comment{{ .PostId }}" value="{{ .PostId }}"
+                  onclick="Comment({{.PostId}})" class="SendSVGContainer">
+                  <svg xmlns="http://www.w3.org/2000/svg" version="1.0" width="30.000000pt" height="30.000000pt"
+                    viewBox="0 0 30.000000 30.000000" preserveAspectRatio="xMidYMid meet" class="SendSVG">
+                    <g transform="translate(0.000000,30.000000) scale(0.100000,-0.100000)" fill="#2b2b35" stroke="none">
+                      <path
+                        d="M44 256 c-3 -8 -4 -29 -2 -48 3 -31 5 -33 56 -42 28 -5 52 -13 52 -16 0 -3 -24 -11 -52 -16 -52 -9 -53 -9 -56 -48 -2 -21 1 -43 6 -48 10 -10 232 97 232 112 0 7 -211 120 -224 120 -4 0 -9 -6 -12 -14z">
+                      </path>
+                    </g>
+                  </svg>
+                </div>
+              </div>
+            </div>
+          </div>
+          {{ end }}
+        </div>
+      </main>
+    </div>
+  </div>
+</body>
+<script>
+
+  var form = document.getElementById('Filter');
+var checkboxes = document.querySelectorAll('input[name="categories"]');
+
+// Initialize the checkboxes based on the stored values
+checkboxes.forEach(function(checkbox) {
+  var storedValue = localStorage.getItem(checkbox.value);
+  if (storedValue === "true") {
+    checkbox.checked = true;
+  }
+});
+
+// Add event listener to checkboxes change
+checkboxes.forEach(function(checkbox) {
+  checkbox.addEventListener('change', function() {
+    updateStoredValues();
+    submitForm();
+  });
+});
+
+// Function to update the stored checkbox values
+function updateStoredValues() {
+  checkboxes.forEach(function(checkbox) {
+    localStorage.setItem(checkbox.value, checkbox.checked);
+  });
+}
+
+// Function to submit the form
+function submitForm() {
+  var categories = [];
+
+  checkboxes.forEach(function(checkbox) {
+    if (checkbox.checked) {
+      categories.push(checkbox.value);
+    }
+  });
+
+  var categoriesString = categories.join(' ');
+
+  var hiddenInput = form.querySelector('input[name="categories"]');
+  if (!hiddenInput) {
+    hiddenInput = document.createElement('input');
+    hiddenInput.type = 'hidden';
+    hiddenInput.name = 'categories';
+    form.appendChild(hiddenInput);
+  }
+
+  hiddenInput.value = categoriesString;
+
+  form.submit();
+}
+
+  const isGuest = sessionStorage.getItem('isGuest');
+
+  LikedPosts()
+  LikedComments()
+  displayDeleteButtons() 
+
+  function HandleCommentLike(clickedCheckbox, checkboxName) {
+    if (isGuest === 'true') {
+      alert("Action Not Allowed: Only logged-in users can like comments.")
+    } else {
+      const checkboxValue = clickedCheckbox.value;
+      const isChecked = clickedCheckbox.checked;
+      if (checkboxName === 'Dislike' && document.getElementById(`CLike${checkboxValue}`).checked === true) {
+        clickedCheckbox.checked = false
+      } else if (checkboxName === 'Like' && document.getElementById(`CDislike${checkboxValue}`).checked === true) {
+        clickedCheckbox.checked = false
+      } else {
+        fetch("/CommentLikeHandle", {
+          method: "POST",
+          body: JSON.stringify({
+            RequestType: "like",
+            Type: checkboxName,
+            ID: checkboxValue,
+            Checked: isChecked,
+          }),
+        })
+          .then((response) => {
+            console.log(response);
+          })
+          .catch((error) => console.error("Error:", error));
+
+        //Store Value
+        const id = clickedCheckbox.getAttribute("id");
+        const LikeNum = document.getElementById(`Num${id}`);
+
+        // Get the current text content and parse it as an integer
+        let currentValue = parseInt(LikeNum.textContent);
+        if (isChecked === true) {
+          // Set the updated value as the new text content of the element
+          LikeNum.textContent = (currentValue + 1).toString();
+        } else {
+          LikeNum.textContent = (currentValue - 1).toString();
+        }
+        document.getElementById(`C${checkboxName}SVG${checkboxValue}`).classList.toggle(`C${checkboxName}SVGClicked`)
+
+      }
+
+    }
+  }
+
+function LikedComments() {
+    var likedComments = {{ .LikedComments }};
+  if (isGuest === 'false') {
+    if (likedComments !== null) {
+      likedComments.forEach(function (like) {
+        value = like.split("_")
+        checkbox = document.getElementById(value.join(""))
+        if (checkbox !== null) {
+          checkbox.checked = true
+          document.getElementById(`${value[0]}SVG${value[1]}`).classList.add(`${value[0]}SVGClicked`)
+        }
+      });
+    }
+  }
+}
+ function LikedPosts() {
+    var likedPosts = {{ .LikedPosts }};
+  if (isGuest === 'false') {
+    if (likedPosts !== null) {
+      likedPosts.forEach(function (like) {
+        value = like.split("_")
+        checkbox = document.getElementById(value.join(""))
+        if (checkbox !== null) {
+          checkbox.checked = true
+          document.getElementById(`${value[0]}SVG${value[1]}`).classList.add(`${value[0]}SVGClicked`)
+        }
+      });
+    }
+  }
+}
+
+function Comment(postId, username, userId) {
+    let userName = {{ .Username }}
+    let profileImage = {{.ProfileImg }}
+    var commentId;
+
+  let CommentMessage = document.getElementById(`CommentMessage${postId}`);
+  var message = CommentMessage.value;
+
+  if (isGuest === 'true') {
+    alert("Action Not Allowed: Only logged-in users can comment")
+    return;
+  }
+
+  if (message.length > 200) {
+    alert("Comment cannot be more than 200 characters.");
+    return;
+  }else if (message.length === 0) {
+    alert("Empty Comments are not allowed");
+  }else {
+
+  fetch('/CommentHandler', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ message: message, postId: postId, username: userName, profileImage: profileImage }),
+  })
+    .then(function (response) {
+      if (response.ok) {
+        console.log('Message sent successfully!');
+        CommentMessage.value = ''; // Reset the input field
+        // Handle the response from the backend if needed
+        return response.json(); // Parse the response body as JSON
+      } else {
+        throw new Error('Error sending message.');
+      }
+    })
+    .then(function (data) {
+      commentId = data.CommentId;
+      console.log(commentId);
+      createCommentElement(commentId, message, postId, userName, profileImage);
+    })
+    .catch(function (error) {
+      console.error('Error sending message:', error);
+      // Handle the error if the message fails to send
+    });
+  }
+}
+
+  function createCommentElement(commentId, message, postId, userName, profileImage) {
+    var commentElement = document.createElement("div");
+    commentElement.classList.add("Comment");
+    var Time = new Date().toLocaleString();
+
+    commentElement.innerHTML = `
+    <img src="../ProfileImages/${profileImage}" class="CommentProfileImage" />
+    <div class="CommentTextContainer">
+      <p class="UserNameText">${userName}</p>
+      <p class="CommentText">${message}</p>
+      <p class="CommentDate">${Time}</p>
+    </div>
+    <div class="CommentLikeButtons">
+      <div class="CommentLikeContainer">
+        <p id="NumCLike${commentId}">0</p>
+        <label class="container">
+          <input type="checkbox" id="CLike${commentId}"
+          value="${commentId}"
+          onchange="HandleCommentLike(this,'Like')" />
+          <svg class="LikeSVG CommentLikeSVG" id="CLikeSVG${commentId}" id="Glyph" version="1.1" viewBox="0 0 32 32" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+            <path
+            d="M29.845,17.099l-2.489,8.725C26.989,27.105,25.804,28,24.473,28H11c-0.553,0-1-0.448-1-1V13  c0-0.215,0.069-0.425,0.198-0.597l5.392-7.24C16.188,4.414,17.05,4,17.974,4C19.643,4,21,5.357,21,7.026V12h5.002  c1.265,0,2.427,0.579,3.188,1.589C29.954,14.601,30.192,15.88,29.845,17.099z"
+            id="XMLID_254_"
+          ></path>
+          <path
+            d="M7,12H3c-0.553,0-1,0.448-1,1v14c0,0.552,0.447,1,1,1h4c0.553,0,1-0.448,1-1V13C8,12.448,7.553,12,7,12z   M5,25.5c-0.828,0-1.5-0.672-1.5-1.5c0-0.828,0.672-1.5,1.5-1.5c0.828,0,1.5,0.672,1.5,1.5C6.5,24.828,5.828,25.5,5,25.5z"
+            id="XMLID_256_"
+          ></path>
+          </svg>
+        </label>
+      </div>
+      <div class="CommentDislikeContainer">
+        <p id="NumCDislike${commentId}">0</p>
+        <label class="container">
+          <input type="checkbox" id="CDislike${commentId}"
+          value="${commentId}"
+          onchange="HandleCommentLike(this,'Dislike')" />
+          <svg class="LikeSVG DisLikeSVG CommentLikeSVG" id="CDislikeSVG${commentId}" id="Glyph" version="1.1" viewBox="0 0 32 32" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+            <path
+            d="M2.156,14.901l2.489-8.725C5.012,4.895,6.197,4,7.528,4h13.473C21.554,4,22,4.448,22,5v14  c0,0.215-0.068,0.425-0.197,0.597l-5.392,7.24C15.813,27.586,14.951,28,14.027,28c-1.669,0-3.026-1.357-3.026-3.026V20H5.999  c-1.265,0-2.427-0.579-3.188-1.589C2.047,17.399,1.809,16.12,2.156,14.901z"
+            id="XMLID_259_"
+          ></path>
+          <path
+            d="M25.001,20h4C29.554,20,30,19.552,30,19V5c0-0.552-0.446-1-0.999-1h-4c-0.553,0-1,0.448-1,1v14  C24.001,19.552,24.448,20,25.001,20z M27.001,6.5c0.828,0,1.5,0.672,1.5,1.5c0,0.828-0.672,1.5-1.5,1.5c-0.828,0-1.5-0.672-1.5-1.5  C25.501,7.172,26.173,6.5,27.001,6.5z"
+            id="XMLID_260_"
+          ></path> 
+          </svg>
+        </label>
+      </div>
+    </div>
+  `;
+
+    var commentsContainer = document.getElementById("Comment" + postId);
+    commentsContainer.appendChild(commentElement);
+  }
+  // Get references to the required elements
+
+
+  PostCommentBtn = document.querySelectorAll(".bookmarkBtn");
+
+  function ToggleComment(id) {
+    let CommentContainer = document.getElementById(`CommentsContainer${id}`)
+    CommentContainer.classList.toggle('HideComments')
+  }
+
+
+
+  function HandleLike(clickedCheckbox, checkboxName) {
+    if (isGuest === 'false') {
+      const checkboxValue = clickedCheckbox.value;
+      const isChecked = clickedCheckbox.checked;
+      if (checkboxName === 'Dislike' && document.getElementById(`Like${checkboxValue}`).checked === true) {
+        clickedCheckbox.checked = false
+      } else if (checkboxName === 'Like' && document.getElementById(`Dislike${checkboxValue}`).checked === true) {
+        clickedCheckbox.checked = false
+      } else {
+        console.log("this id like");
+        fetch("/HomePage", {
+          method: "POST",
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            RequestType: "like",
+            Type: checkboxName,
+            ID: checkboxValue,
+            Checked: isChecked,
+          }),
+        })
+          .then((response) => {
+            console.log(response);
+            // Handle the response for the clicked checkbox
+          })
+          .catch((error) => console.error("Error:", error));
+
+        //Store Value
+        const id = clickedCheckbox.getAttribute("id");
+        const LikeNum = document.getElementById(`Num${id}`);
+
+        // Get the current text content and parse it as an integer
+        let currentValue = parseInt(LikeNum.textContent);
+        if (isChecked === true) {
+          // Set the updated value as the new text content of the element
+          LikeNum.textContent = (currentValue + 1).toString();
+        } else {
+          LikeNum.textContent = (currentValue - 1).toString();
+        }
+        document.getElementById(`${checkboxName}SVG${checkboxValue}`).classList.toggle(`${checkboxName}SVGClicked`)
+      }
+    } else if (isGuest === 'true'){
+      alert("Action Not Allowed: Only logged-in users can like posts")
+    }
+  }
+
+
+
+  function HandleDelete(PostId) {
+    fetch("/HomePage", {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        RequestType: "delete",
+        ID: PostId,
+      }),
+    })
+      .then((response) => {
+        console.log(response);
+        // Handle the response for the clicked checkbox
+      })
+      .catch((error) => console.error("Error:", error));
+    location.reload();
+  }
+
+function  displayDeleteButtons() {
+  if (isGuest === 'false') {
+    var CreatedPosts = {{ .Createdposts }};
+    if (CreatedPosts !== null) {
+      CreatedPosts.forEach(function (PostId) {
+        DeleteBtn = document.getElementById(`DeleteBtn${PostId}`)
+        if (DeleteBtn !== null) {
+           DeleteBtn.style.display = "flex";
+        }
+       });
+    }
+  }
+}
+  
+
+</script>
+
+</html>

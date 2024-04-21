@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title></title>
+    <link href="../Style/CreatedPosts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="card">
+      <div class="content">
+        {{ template "nav" . }}
+
+        <main>
+          <form
+            action="/CreatePost"
+            method="POST"
+            class="Post"
+            id="PostForm"
+            enctype="multipart/form-data"
+          >
+
+          <input class="Title" placeholder="Title" name="Title" required />
+          <div class="ContentImageContainer">
+          <textarea class="Content" placeholder="Content" name="Content" required></textarea>
+
+            <label class="custum-file-upload" for="file">
+              <div class="icon">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill=""
+                  viewBox="0 0 24 24"
+                >
+                  <g stroke-width="0" id="SVGRepo_bgCarrier"></g>
+                  <g
+                    stroke-linejoin="round"
+                    stroke-linecap="round"
+                    id="SVGRepo_tracerCarrier"
+                  ></g>
+                  <g id="SVGRepo_iconCarrier">
+                    <path
+                      fill=""
+                      d="M10 1C9.73478 1 9.48043 1.10536 9.29289 1.29289L3.29289 7.29289C3.10536 7.48043 3 7.73478 3 8V20C3 21.6569 4.34315 23 6 23H7C7.55228 23 8 22.5523 8 22C8 21.4477 7.55228 21 7 21H6C5.44772 21 5 20.5523 5 20V9H10C10.5523 9 11 8.55228 11 8V3H18C18.5523 3 19 3.44772 19 4V9C19 9.55228 19.4477 10 20 10C20.5523 10 21 9.55228 21 9V4C21 2.34315 19.6569 1 18 1H10ZM9 7H6.41421L9 4.41421V7ZM14 15.5C14 14.1193 15.1193 13 16.5 13C17.8807 13 19 14.1193 19 15.5V16V17H20C21.1046 17 22 17.8954 22 19C22 20.1046 21.1046 21 20 21H13C11.8954 21 11 20.1046 11 19C11 17.8954 11.8954 17 13 17H14V16V15.5ZM16.5 11C14.142 11 12.2076 12.8136 12.0156 15.122C10.2825 15.5606 9 17.1305 9 19C9 21.2091 10.7909 23 13 23H20C22.2091 23 24 21.2091 24 19C24 17.1305 22.7175 15.5606 20.9844 15.122C20.7924 12.8136 18.858 11 16.5 11Z"
+                      clip-rule="evenodd"
+                      fill-rule="evenodd"
+                    ></path>
+                  </g>
+                </svg>
+              </div>
+              <input
+                type="file"
+                id="file"
+                name="file"
+                onchange="handleFileInputChange(this)"
+              />
+            </label>
+          </div>
+            <div class="Category">
+              <p class="CategoriesText">
+                Please select at least one category that is related to your post
+              </p>
+              <div class="customCheckBoxHolder">
+                <input
+                  type="checkbox"
+                  id="cCB1"
+                  class="customCheckBoxInput"
+                  name="checkbox"
+                  value="News"
+                />
+                <label for="cCB1" class="customCheckBoxWrapper">
+                  <div class="customCheckBox">
+                    <div class="inner">News</div>
+                  </div>
+                </label>
+                <input
+                  type="checkbox"
+                  id="cCB2"
+                  class="customCheckBoxInput"
+                  name="checkbox"
+                  value="Technology"
+                />
+                <label for="cCB2" class="customCheckBoxWrapper">
+                  <div class="customCheckBox">
+                    <div class="inner">Technology</div>
+                  </div>
+                </label>
+                <input
+                  type="checkbox"
+                  id="cCB3"
+                  class="customCheckBoxInput"
+                  name="checkbox"
+                  value="Sports"
+                />
+                <label for="cCB3" class="customCheckBoxWrapper">
+                  <div class="customCheckBox">
+                    <div class="inner">Sports</div>
+                  </div>
+                </label>
+                <input
+                  type="checkbox"
+                  id="cCB4"
+                  class="customCheckBoxInput"
+                  name="checkbox"
+                  value="Health"
+                />
+                <label for="cCB4" class="customCheckBoxWrapper">
+                  <div class="customCheckBox">
+                    <div class="inner">Health</div>
+                  </div>
+                </label>
+                <input
+                  type="checkbox"
+                  id="cCB5"
+                  class="customCheckBoxInput"
+                  name="checkbox"
+                  value="Education"
+                />
+                <label for="cCB5" class="customCheckBoxWrapper">
+                  <div class="customCheckBox">
+                    <div class="inner">Education</div>
+                  </div>
+                </label>
+                <input
+                  type="checkbox"
+                  id="cCB6"
+                  class="customCheckBoxInput"
+                  name="checkbox"
+                  value="Arts"
+                />
+                <label for="cCB6" class="customCheckBoxWrapper">
+                  <div class="customCheckBox">
+                    <div class="inner">Arts</div>
+                  </div>
+                </label>
+                <input
+                  type="checkbox"
+                  id="cCB7"
+                  class="customCheckBoxInput"
+                  name="checkbox"
+                  value="Travel"
+                />
+                <label for="cCB7" class="customCheckBoxWrapper">
+                  <div class="customCheckBox">
+                    <div class="inner">Travel</div>
+                  </div>
+                </label>
+                <input
+                  type="checkbox"
+                  id="cCB8"
+                  class="customCheckBoxInput"
+                  name="checkbox"
+                  value="Food"
+                />
+                <label for="cCB8" class="customCheckBoxWrapper">
+                  <div class="customCheckBox">
+                    <div class="inner">Food</div>
+                  </div>
+                </label>
+                <input
+                  type="checkbox"
+                  id="cCB9"
+                  class="customCheckBoxInput"
+                  name="checkbox"
+                  value="Business"
+                />
+                <label for="cCB9" class="customCheckBoxWrapper">
+                  <div class="customCheckBox">
+                    <div class="inner">Business</div>
+                  </div>
+                </label>
+                <input
+                  type="checkbox"
+                  id="cCB10"
+                  class="customCheckBoxInput"
+                  name="checkbox"
+                  value="Science"
+                />
+                <label for="cCB10" class="customCheckBoxWrapper">
+                  <div class="customCheckBox">
+                    <div class="inner">Science</div>
+                  </div>
+                </label>
+                <input
+                  type="checkbox"
+                  id="cCB11"
+                  class="customCheckBoxInput"
+                  name="checkbox"
+                  value="Lifestyle"
+                />
+                <label for="cCB11" class="customCheckBoxWrapper">
+                  <div class="customCheckBox">
+                    <div class="inner">Lifestyle</div>
+                  </div>
+                </label>
+              </div>
+            </div>
+            <button class="Download-button">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                height="16"
+                width="20"
+                viewBox="0 0 640 512"
+              >
+                <path
+                  d="M144 480C64.5 480 0 415.5 0 336c0-62.8 40.2-116.2 96.2-135.9c-.1-2.7-.2-5.4-.2-8.1c0-88.4 71.6-160 160-160c59.3 0 111 32.2 138.7 80.2C409.9 102 428.3 96 448 96c53 0 96 43 96 96c0 12.2-2.3 23.8-6.4 34.6C596 238.4 640 290.1 640 352c0 70.7-57.3 128-128 128H144zm79-167l80 80c9.4 9.4 24.6 9.4 33.9 0l80-80c9.4-9.4 9.4-24.6 0-33.9s-24.6-9.4-33.9 0l-39 39V184c0-13.3-10.7-24-24-24s-24 10.7-24 24V318.1l-39-39c-9.4-9.4-24.6-9.4-33.9 0s-9.4 24.6 0 33.9z"
+                  fill="white"
+                ></path>
+              </svg>
+              <span>Download</span>
+            </button>
+          </form>
+        </main>
+      </div>
+    </div>
+
+  </body>
+  <script>
+    // Select the form element
+ const form = document.getElementById("PostForm");
+
+// Add a submit event listener to the form
+form.addEventListener("submit", function (event) {
+  const checkboxes = document.querySelectorAll(".customCheckBoxInput");
+
+  // Check if at least one checkbox is checked
+  const isChecked = Array.from(checkboxes).some(
+    (checkbox) => checkbox.checked
+  );
+
+  // If no checkbox is checked, prevent form submission and show an error message
+  if (!isChecked) {
+    event.preventDefault();
+    alert("Please select at least one checkbox.");
+  }
+});
+
+function handleFileInputChange(input) {
+  var file = input.files[0];
+  var allowedTypes = ["image/jpeg", "image/png"];
+
+  if (file && allowedTypes.includes(file.type)) {
+    var reader = new FileReader();
+
+    reader.onload = function (e) {
+      var label = input.parentNode;
+      var image = document.createElement("div");
+      image.className = "selected-image";
+      image.style.backgroundImage = "url(" + e.target.result + ")";
+      label.appendChild(image);
+    };
+
+    reader.readAsDataURL(file);
+  } else {
+    // File type is not allowed, handle accordingly (e.g., display an error message)
+    alert("Please select a valid image file (JPEG or PNG).");
+    input.value = ""; // Clear the file input value
+  }
+}
+  </script>
+</html>

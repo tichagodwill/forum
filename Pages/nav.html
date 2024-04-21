@@ -1,0 +1,110 @@
+
+{{ define "nav" }}
+<nav class="nav">
+    <div class="Menu">
+
+    <div class="UploadPersonalPhoto">
+      <div class="PersonalPhoto">
+        <img class="ProfilePhoto" src="../ProfileImages/{{.ProfileImg}}" />
+        <div class="OverlayText">Change Profile Image</div>
+        <input type="file" id="UploadInput" 
+        name="PImg"
+        style="display: none;" />
+      </div>
+    </div>
+    <h2 class="UserName" >{{ .Username }} </h2>
+      <button class="cssbuttons-io-button HomeBtn">
+        Home
+        <div class="icon HomeIcon">
+          <img class="BtnImage" src="../Style/Image/home.png" />
+        </div>
+      </button>
+
+      <button class="cssbuttons-io-button ProfileBtn">
+        Profile
+        <div class="icon ProfileIcon">
+          <img class="BtnImage" src="../Style/Image/Profile.png" />
+        </div>
+      </button>
+
+      <button class="cssbuttons-io-button CreateBtn">
+        Create Post
+        <div class="icon CreateIcon">
+          <img class="BtnImage" src="../Style/Image/plus.png" />
+        </div>
+      </button>
+    </div>
+
+    <div class="LogOutContainer">
+      <button class="Btn">
+        <div class="sign">
+          <svg viewBox="0 0 512 512">
+            <path
+              d="M377.9 105.9L500.7 228.7c7.2 7.2 11.3 17.1 11.3 27.3s-4.1 20.1-11.3 27.3L377.9 406.1c-6.4 6.4-15 9.9-24 9.9c-18.7 0-33.9-15.2-33.9-33.9l0-62.1-128 0c-17.7 0-32-14.3-32-32l0-64c0-17.7 14.3-32 32-32l128 0 0-62.1c0-18.7 15.2-33.9 33.9-33.9c9 0 17.6 3.6 24 9.9zM160 96L96 96c-17.7 0-32 14.3-32 32l0 256c0 17.7 14.3 32 32 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-64 0c-53 0-96-43-96-96L0 128C0 75 43 32 96 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32z"
+            ></path>
+          </svg>
+        </div>
+        <div class="text">Logout</div>
+      </button>
+    </div>
+    <script>
+    
+  const personalPhoto = document.querySelector('.PersonalPhoto');
+  const profilePhoto = document.querySelector('.ProfilePhoto');
+  const userNameElement = document.querySelector('.UserName');
+  const menu = document.querySelector('.Menu');
+  const overlayText = personalPhoto.querySelector('.OverlayText');
+  const uploadInput = document.getElementById('UploadInput');
+
+  const ProfileButton = document.querySelector('.ProfileBtn')
+  const CreateButton = document.querySelector('.CreateBtn')
+  const Guest = sessionStorage.getItem('isGuest');
+  
+  document.addEventListener('DOMContentLoaded', function() {
+ 
+  if (Guest === 'true') {
+  profilePhoto.src='../ProfileImages/ProfileImage.png'
+  userNameElement.textContent = 'guest';
+  overlayText.remove();
+   menu.removeChild(ProfileButton);
+   menu.removeChild(CreateButton);
+  } 
+  })
+  personalPhoto.addEventListener('click', function() {
+    if ((Guest === 'false')){
+    uploadInput.click();
+    }
+  });
+
+  uploadInput.addEventListener('change', function() {
+    const file = this.files[0];
+    const formData = new FormData();
+    formData.append('PImg', file);
+    console.log(file);
+
+    fetch('/ProfileImageHandler', {
+      method: 'POST',
+      body: formData
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Failed to upload file');
+      }
+      console.log('File uploaded successfully.');
+      location.reload();
+    })
+    .catch(error => {
+      console.error(error);
+      });
+  });
+
+      const HomeButton = document.querySelector('.HomeBtn')
+      const LogOutButton = document.querySelector('.Btn')
+
+      HomeButton.addEventListener('click', function(){window.location.href = '/HomePage';})
+      ProfileButton.addEventListener('click', function(){window.location.href = '/Profile';})
+      CreateButton.addEventListener('click', function(){window.location.href = '/CreatePost';})
+      LogOutButton.addEventListener('click', function(){window.location.href = '/LogOut';})
+    </script>
+  </nav>
+{{end}}

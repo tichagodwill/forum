@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Error Page</title>
+    <link rel="stylesheet" type="text/css" href="Error.css">
+</head>
+<body>
+    <div class="Error-container">
+        <h1>{{ .Code }}</h1>
+        <h1>{{ .Message }}</h1>
+    </div>
+    <button class="back-button" onclick="goToHomePage()">Back</button>
+    <script>
+        function goToHomePage() {
+            window.location.href = "/HomePage";
+        }
+    </script>
+</body>
+</html>

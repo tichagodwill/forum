@@ -1,0 +1,70 @@
+Bellow you can find detailed explination for the dockerfile
+
+# Base image
+FROM golang:1.20
+This line specifies the base image for your Docker image. It sets the Go programming language version to 1.20 as the base image.
+
+
+
+# Set the working directory
+WORKDIR /app
+This line sets the working directory inside the container to /app. It will be the root directory for subsequent commands and file operations.
+
+
+# Copy go.mod and go.sum
+COPY go.mod go.sum ./
+These lines copy the go.mod and go.sum files from your host machine (the directory where the Dockerfile resides) to the current working directory inside the container (/app). This is done to leverage Docker's layer caching mechanism for more efficient builds.
+
+
+# Download Go module dependencies
+RUN go mod download
+This line downloads the Go module dependencies based on the go.mod and go.sum files copied in the previous step.
+
+
+# Copy the rest of the application files
+COPY . .
+This line copies all the remaining files from your host machine (the directory where the Dockerfile resides) to the current working directory inside the container (/app).
+
+
+# Expose the port(s) required by your application
+EXPOSE 8080
+This line specifies that the container will expose port 8080. It informs Docker that the application running inside the container will listen on port 8080, but it doesn't actually publish the port to the host machine.
+
+
+# Define environment variables, if needed
+ENV DB_HOST=localhost
+ENV DB_PORT=5432
+ENV DB_USERNAME=root
+ENV DB_PASSWORD=secret
+ENV DB_NAME=mydatabase
+These lines define environment variables that can be accessed by the application running inside the container. They provide configuration values for connecting to a database. Modify these variables based on your specific database setup.
+
+
+# Set up the database (You can modify this based on your database setup)
+# Set up SQLite
+RUN apt-get update && apt-get install -y sqlite3
+These lines update the package repositories inside the container and install SQLite. It assumes you are using SQLite as your database. If you are using a different database, you will need to modify this section accordingly.
+
+
+# Build the Go application
+RUN go build -o forum
+This line builds the Go application inside the container and generates an executable named forum. The -o flag specifies the output binary's name.
+
+
+# Start the application
+CMD ["./forum"]
+This line specifies the command to run when the container starts. It executes the forum binary, which is the Go application built in the previous step.
+
+To build the Docker image, navigate to the directory containing the Dockerfile in the terminal or command prompt and run the following command:
+
+
+docker build -t forum .
+This command builds the Docker image using the Dockerfile and tags it with the name forum.
+
+To run the Docker container based on the image, use the following command:
+
+
+docker run -d --name forum-container -p 8080:8080 forum
+This command creates a container named forum-container from the forum image. It maps port 8080 from the container to port 8080 on the host system (-p 8080:8080), allowing you to access the application running inside the container.
+
+Now you should have a Docker image built and a container running your Go application. You can access your application by visiting http://localhost:8080 in your web browser.
