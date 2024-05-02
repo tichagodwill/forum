@@ -4,7 +4,6 @@ import (
 	"database/sql"
 	"errors"
 	_ "github.com/mattn/go-sqlite3"
-	
 	"golang.org/x/crypto/bcrypt"
 	"html/template"
 	"log"

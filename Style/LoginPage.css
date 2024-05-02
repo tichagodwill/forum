@@ -4,7 +4,7 @@ html,
 body {
   font-family: "Acme", sans-serif;
   height: 98%;
-  background-color: #efeff7;
+  background-color: #003135;
   /*background-color: #E9E8FF;*/
 }
 
@@ -21,11 +21,11 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: rgb(255, 255, 255);
+  background-color: #5c9498;
   padding: 30px 30px 30px 30px;
   border-radius: 30px;
-  box-shadow: -3px -3px 7px rgba(94, 104, 121, 0.288),
-    20px 20px 20px rgba(94, 104, 121, 0.288);
+  /* box-shadow: -3px -3px 7px rgba(94, 104, 121, 0.288),
+    20px 20px 20px rgba(94, 104, 121, 0.288); */
 }
 
 .heading {
@@ -62,11 +62,12 @@ body {
   font-weight: 500;
   box-sizing: border-box;
   padding-left: 30px;
+  
 }
 
 .inputField:focus {
   outline: none;
-  border-bottom: 2px solid #7d5cf5;
+  border-bottom: 2px solid #003135;
 }
 
 .inputField::placeholder {
@@ -74,14 +75,15 @@ body {
   font-size: 1em;
   font-weight: 500;
   font-family: "Acme", sans-serif;
+  color: black;
 }
 
 #button {
   font-family: "Acme", sans-serif;
   position: relative;
   width: 100%;
-  border: 2px solid #7d5cf5;
-  background-color: #7d5cf5;
+  border: 2px solid #003135;
+  background-color: #003135;
   height: 40px;
   color: white;
   font-size: 17px;
@@ -93,7 +95,13 @@ body {
   overflow: hidden;
 }
 
-#button::after {
+#button{
+  transition: all .09s ease-in-out;
+}
+  #button:hover {
+    transform: scale(1.1);
+  }
+/* #button::after {
   content: "";
   position: absolute;
   background-color: rgba(255, 255, 255, 0.253);
@@ -105,12 +113,12 @@ body {
   border-top-left-radius: 100px;
   filter: blur(10px);
   transition-duration: 0.5s;
-}
+} */
 
-#button:hover::after {
+/* #button:hover::after {
   transform: translateX(600px);
   transition-duration: 0.5s;
-}
+} */
 
 .signupContainer {
   margin: 0;
@@ -140,7 +148,6 @@ body {
   position: relative;
   overflow: hidden;
   z-index: 1;
-  box-shadow: 6px 6px 12px #c5c5c5, -6px -6px 12px #ffffff;
 }
 
 .SignUp::before, .Guest::before {
@@ -151,7 +158,7 @@ body {
   position: absolute;
   top: 0;
   left: 0;
-  background-image: linear-gradient(to right, #aca0d8 0%, #7d5cf5 100%);
+  background-image: linear-gradient(to right, #5c9498 0%, #003135 100%);
   transition: 0.5s ease;
   display: block;
   z-index: -1;
@@ -164,4 +171,5 @@ body {
 .SignUp:hover,
 .Guest:hover {
   color: white;
+  cursor: pointer;
 }
