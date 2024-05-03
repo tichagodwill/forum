@@ -3,8 +3,11 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="google-signin-client_id" content="373300924772-39g2hkeqh1910gnpcj54qu1b86ero9om.apps.googleusercontent.com">
     <title></title>
     <link href="../Style/LoginPage.css" rel="stylesheet" />
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+
   </head>
   <body>
     <div class="content">
@@ -100,6 +103,27 @@
             <button class="SignUp Login" name="action" value="login"> Log in </button>
             <button class="Guest" name="action" value="guest">Continue as a guest</button>
           </div>
+          <script>
+            function onSignIn(googleUser) {
+            var profile = googleUser.getBasicProfile();
+
+
+          </script>
+          <div class="g-signin2" data-onsuccess="onSignIn"></div>
+          <script>
+  function onSignIn(googleUser) {
+    var id_token = googleUser.getAuthResponse().id_token;
+    // Send the id_token to the server
+    fetch('/googleSignIn', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({id_token: id_token})
+    });
+  }
+</script>
+
         </div>
       </form>
     </div>
