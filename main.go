@@ -21,6 +21,7 @@ func main() {
 	http.HandleFunc("/CommentHandler", forum.CommentHandler)
 	http.HandleFunc("/ProfileImageHandler", forum.ProfileImageHandler)
 	http.HandleFunc("/CommentLikeHandle", forum.CommentLikeHandle)
+	http.HandleFunc("/googleSignIn", forum.GoogleSignInHandler)
 	
 	/*http.HandleFunc("/", forum.Login)
 	http.HandleFunc("/SignUp", forum.SignUpHandler)

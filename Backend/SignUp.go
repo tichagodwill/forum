@@ -2,12 +2,33 @@ package forum
 
 import (
 	_ "github.com/mattn/go-sqlite3"
+	"encoding/json"
 	"html/template"
 	"net/http"
 	"strings"
 	"fmt"
+	//"golang.org/x/oauth2/google"
+    "google.golang.org/api/idtoken"
 )
-
+func GoogleSignInHandler(w http.ResponseWriter, r *http.Request) {
+    var data struct {
+        IDToken string `json:"id_token"`
+    }
+    err := json.NewDecoder(r.Body).Decode(&data)
+    if err != nil {
+        http.Error(w, err.Error(), http.StatusBadRequest)
+        return
+    }
+    payload, err := idtoken.Validate(r.Context(), data.IDToken, "373300924772-39g2hkeqh1910gnpcj54qu1b86ero9om.apps.googleusercontent.com")
+    if err != nil {
+        http.Error(w, "Invalid ID token", http.StatusBadRequest)
+        return
+    }
+    // Get the user's email from the payload and create a new account or log the user in
+    email := payload.Claims["email"]
+    fmt.Println(email) // Use the email variable to avoid the unused variable error
+    // ...
+}
 func SignUpHandler(w http.ResponseWriter, r *http.Request) {
 	var tmpl = template.Must(template.ParseFiles("./Pages/SignUp.html"))
 	if r.Method == "GET" {
