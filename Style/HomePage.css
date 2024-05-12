@@ -2,7 +2,7 @@
 
 html,
 body {
-  background: linear-gradient(32deg, #ededf8, #9a9acd, #c3c3ec, #ededf8);
+  background: linear-gradient(32deg, #003135, #9a9acd, #c3c3ec, #003135);
   margin: 0;
   padding: 0;
   height: 100%;
@@ -17,7 +17,7 @@ body {
 .card {
   backdrop-filter: blur(14px) saturate(147%);
   -webkit-backdrop-filter: blur(14px) saturate(147%);
-  background-color: rgba(255, 255, 255, 0.29);
+  background-color: #136970;
   border-radius: 12px;
   border: 1px solid rgba(209, 213, 219, 0.3);
   width: 90%;
@@ -25,8 +25,8 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: -3px -3px 7px rgba(111, 94, 121, 0.288),
-    20px 20px 20px rgba(94, 104, 121, 0.288);
+  /* box-shadow: -3px -3px 7px rgba(106, 46, 141, 0.288),
+    20px 20px 20px rgba(94, 104, 121, 0.288); */
 }
 
 .content {
@@ -35,6 +35,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+
 }
 
 .HomeMain {
@@ -45,7 +46,7 @@ body {
   width: 70%;
   flex: 0.8;
   height: 92%;
-  background-color: #f0f0f0;
+  background-color: #68b1b6;
   border-radius: 12px;
   border: 1px solid rgba(255, 255, 255, 0.2);
   box-shadow: -3px -3px 7px #6f5e7949, 20px 20px 20px rgba(94, 104, 121, 0.288);
@@ -300,6 +301,10 @@ p {
   align-items: center;
 }
 
+.nav .Menu .UserName{
+  color: white;
+}
+
 .PersonalPhoto {
   width: 90%;
   position: relative;
@@ -363,7 +368,7 @@ p {
   overflow: hidden;
   transition-duration: 0.3s;
   box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.199);
-  background-color: #7d5cf5;
+  background-color: #5c9498;
 }
 
 .Delete {
@@ -433,7 +438,7 @@ p {
 
 .cssbuttons-io-button {
   font-family: "Acme", sans-serif;
-  background: #7d5cf5;
+  background: #5c9498;
   color: white;
   font-family: inherit;
   padding: 0.35em;
@@ -444,7 +449,7 @@ p {
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: inset 0 0 1.6em -0.6em #7d5cf5;
+  box-shadow: inset 0 0 1.6em -0.6em #138b94;;
   overflow: hidden;
   position: relative;
   height: 2.8em;
@@ -476,7 +481,7 @@ p {
 .cssbuttons-io-button .icon .BtnImage {
   width: 1.1em;
   transition: transform 0.3s;
-  color: #7d5cf5;
+  color: #5c9498;
 }
 
 .cssbuttons-io-button:hover .icon .BtnImage {
@@ -563,11 +568,11 @@ p {
 }
 
 .customCheckBoxInput:checked + .customCheckBoxWrapper .customCheckBox {
-  background-color: #9a9acd;
+  background-color: #003135;
   color: white;
-  box-shadow: rgba(0, 0, 0, 0.23) 0px -4px 1px 0px inset,
+  /* box-shadow: rgba(0, 0, 0, 0.23) 0px -4px 1px 0px inset,
     rgba(255, 255, 255, 0.17) 0px -1px 1px 0px,
-    rgba(0, 0, 0, 0.17) 0px 2px 4px 1px;
+    rgba(0, 0, 0, 0.17) 0px 2px 4px 1px; */
 }
 
 .customCheckBoxInput:checked + .customCheckBoxWrapper .customCheckBox .inner {
@@ -647,7 +652,7 @@ p {
 .IconContainer {
   width: 30px;
   height: 30px;
-  background-color: rgb(103, 74, 228);
+  background-color: #003135;
   border-radius: 50%;
   display: flex;
   align-items: center;

@@ -30,7 +30,6 @@ h1 {
     color:rgb(40, 39, 39);
 }
 .back-button:hover {
-    /*background-image: linear-gradient(144deg, #AF40FF, #5B42F3 50%, #00DDEB);*/
     border: none;
     color:rgb(215, 210, 210);
 }
