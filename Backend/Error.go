@@ -2,19 +2,19 @@ package forum
 
 import (
     "net/http"
-    // "log"
-    // "os"
+     "log"
+     "os"
 )
 
 // Function to serve error files
 func ServeErrorFiles() {
-    // Print current working directory
-    // cwd, err := os.Getwd()
-    // if err != nil {
-    //     log.Println("Error getting current working directory:", err)
-    // } else {
-    //     log.Println("Current working directory:", cwd)
-    // }
+     //Print current working directory
+     cwd, err := os.Getwd()
+     if err != nil {
+         log.Println("Error getting current working directory:", err)
+     } else {
+         log.Println("Current working directory:", cwd)
+     }
 
     // Serve error files from the "Error" directory
     fs := http.FileServer(http.Dir("Error"))
@@ -25,6 +25,7 @@ func ServeErrorFiles() {
 
 // Function to handle errors by rendering appropriate error pages
 func ErrorHandler(w http.ResponseWriter, r *http.Request, statusCode int, errorMsg string) {
+    w.WriteHeader(statusCode)
     switch statusCode {
     case http.StatusBadRequest:
         http.ServeFile(w, r, "Error/error400.html")
@@ -39,17 +40,19 @@ func ErrorHandler(w http.ResponseWriter, r *http.Request, statusCode int, errorM
 
 // Function to handle bad request errors
 func HandleBadRequest(w http.ResponseWriter, r *http.Request) {
+    //log.Println("Handling bad request error ") (For debugging purposes)
     ErrorHandler(w, r, http.StatusBadRequest, "Bad Request")
 }
 
 // Function to handle not found errors
 func HandleNotFound(w http.ResponseWriter, r *http.Request) {
-    // log.Println("Handling not found error") 
+     //log.Println("Handling not found error") (For debugging purposes)
     ErrorHandler(w, r, http.StatusNotFound, "Page Not Found")
 }
 
 // Function to handle internal server errors
 func HandleInternalServerError(w http.ResponseWriter, r *http.Request) {
+    //log.Println("Handling server error") (For debugging purposes)
     ErrorHandler(w, r, http.StatusInternalServerError, "Internal Server Error")
 }
 
