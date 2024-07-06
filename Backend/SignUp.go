@@ -1,34 +1,35 @@
 package forum
 
 import (
-	_ "github.com/mattn/go-sqlite3"
-	"encoding/json"
+	"fmt"
 	"html/template"
 	"net/http"
 	"strings"
-	"fmt"
-	//"golang.org/x/oauth2/google"
-    "google.golang.org/api/idtoken"
+
+	_ "github.com/mattn/go-sqlite3"
 )
-func GoogleSignInHandler(w http.ResponseWriter, r *http.Request) {
-    var data struct {
-        IDToken string `json:"id_token"`
-    }
-    err := json.NewDecoder(r.Body).Decode(&data)
-    if err != nil {
-        http.Error(w, err.Error(), http.StatusBadRequest)
-        return
-    }
-    payload, err := idtoken.Validate(r.Context(), data.IDToken, "373300924772-39g2hkeqh1910gnpcj54qu1b86ero9om.apps.googleusercontent.com")
-    if err != nil {
-        http.Error(w, "Invalid ID token", http.StatusBadRequest)
-        return
-    }
-    // Get the user's email from the payload and create a new account or log the user in
-    email := payload.Claims["email"]
-    fmt.Println(email) // Use the email variable to avoid the unused variable error
-    // ...
-}
+
+// func GoogleSignInHandler(w http.ResponseWriter, r *http.Request) {
+// 	var data struct {
+// 		IDToken string `json:"id_token"`
+// 	}
+// 	err := json.NewDecoder(r.Body).Decode(&data)
+// 	fmt.Println(data.IDToken)
+// 	if err != nil {
+// 		http.Error(w, err.Error(), http.StatusBadRequest)
+// 		return
+// 	}
+// 	payload, err := idtoken.Validate(context.Background(), data.IDToken, "255964569523-hp73sohv8laf44ihkbpdimqdv968u0lc.apps.googleusercontent.com")
+// 	if err != nil {
+// 		http.Error(w, "Invalid ID token", http.StatusBadRequest)
+// 		return
+// 	}
+// 	// Get the user's email from the payload and create a new account or log the user in
+// 	email := payload.Claims["email"]
+// 	fmt.Println(email) // Use the email variable to avoid the unused variable error
+// 	// ...
+// }
+
 func SignUpHandler(w http.ResponseWriter, r *http.Request) {
 	var tmpl = template.Must(template.ParseFiles("./Pages/SignUp.html"))
 	if r.Method == "GET" {
@@ -97,19 +98,19 @@ func SignUpHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func AddAccount(email, username, password string) (int64, string, error){
+func AddAccount(email, username, password string) (int64, string, error) {
 	errorMessage := ""
 	insertQuery := "INSERT INTO accounts (Email, Username, Password) VALUES (?, ?, ?)"
-	
+
 	result, err := Accountsdb.Exec(insertQuery, email, username, password)
 	if err != nil {
 		if strings.Contains(err.Error(), "UNIQUE constraint failed: accounts.Username") {
 			errorMessage = "Username is already taken. Please choose a different username."
 			fmt.Println(errorMessage)
-			return 0 , errorMessage, nil
+			return 0, errorMessage, nil
 		} else {
 			errorMessage = "An error occurred while creating the account. Please try again later."
-			return 0 , errorMessage , nil
+			return 0, errorMessage, nil
 		}
 	}
 
@@ -117,5 +118,5 @@ func AddAccount(email, username, password string) (int64, string, error){
 	if err != nil {
 		return 0, errorMessage, err
 	}
-	return Id , errorMessage, nil
+	return Id, errorMessage, nil
 }

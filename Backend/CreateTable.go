@@ -2,8 +2,9 @@ package forum
 
 import (
 	"database/sql"
-	_ "github.com/mattn/go-sqlite3"
 	"log"
+
+	_ "github.com/mattn/go-sqlite3"
 )
 
 func CreateTables() {
@@ -17,9 +18,10 @@ func CreateTables() {
 	// Create the account table if it doesn't exist
 	AccountsTableQuery := `CREATE TABLE IF NOT EXISTS accounts (
 		id INTEGER PRIMARY KEY AUTOINCREMENT,
-		Email TEXT,
-		Username TEXT UNIQUE,
+		Email TEXT UNIQUE NOT NULL,
+		Username TEXT UNIQUE NOT NULL,
 		Password TEXT,
+		GoogleUserID TEXT UNIQUE,
 		SessionID TEXT,
 		Expiration TIMESTAMP,
 		UserImg TEXT DEFAULT 'ProfileImage.png'
@@ -55,7 +57,6 @@ func CreateTables() {
 	if err != nil {
 		log.Fatal(err)
 	}
-
 
 	//Liked Posts
 	LikedPostsdb, err = sql.Open("sqlite3", "./DataBase/Posts.db")

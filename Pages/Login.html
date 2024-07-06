@@ -76,6 +76,17 @@
             <button class="Guest" name="action" value="guest">Continue as a guest</button>
           </div>
         </div>
+        <div>
+          <a href="/google_login">
+            <img src="https://developers.google.com/identity/images/btn_google_signin_light_normal_web.png" alt="Google Sign-In Button"/>
+          </a>
+        </div>
+        <div>
+          <!-- github -->
+          <a href="/github_login">
+            <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" height="32px" alt="GitHub Sign-In Button"/>
+          </a>
+        </div>
       </form>
     </div>
   </body>
@@ -95,5 +106,13 @@
         sessionStorage.setItem('isGuest', 'true');
     }
      )
+
+     
+     function googleSignIn() {
+      // var auth2 = gapi.auth2.getAuthInstance();
+      // auth2.signIn().then(function () {
+      //   console.log('User signed in.');
+      // });
+    }
     </script>
 </html>

@@ -3,12 +3,13 @@ package forum
 import (
 	"database/sql"
 	"errors"
-	_ "github.com/mattn/go-sqlite3"
-	"golang.org/x/crypto/bcrypt"
 	"html/template"
 	"log"
 	"net/http"
 	"time"
+
+	_ "github.com/mattn/go-sqlite3"
+	"golang.org/x/crypto/bcrypt"
 )
 
 func Login(w http.ResponseWriter, r *http.Request) {
@@ -29,7 +30,6 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		account.Username = r.FormValue("username")
 		account.Password = r.FormValue("password")
 		action := r.FormValue("action")
-		
 
 		switch action {
 		case "login":
@@ -49,16 +49,21 @@ func Login(w http.ResponseWriter, r *http.Request) {
 				//HandlerLoginCookies(w, r, account)
 				var password string
 				ID, err := GetAccountID(account.Email, account.Username)
+				if err != nil {
+					http.Error(w, err.Error(), http.StatusInternalServerError)
+					return
+				}
+
 				if ID == 0 {
 					errorMessage := "This Account Does Not Exist. Please Try Again"
 					Template(w, tmpl, errorMessage)
 				} else {
 					er := Accountsdb.QueryRow("SELECT Password FROM accounts WHERE id = ?", ID).Scan(&password)
 					if !decryption(account.Password, password) {
-						errorMessage := "worng password"
+						errorMessage := "wrong password"
 						Template(w, tmpl, errorMessage)
 						if er != nil {
-							http.Error(w, err.Error(), http.StatusInternalServerError)
+							http.Error(w, er.Error(), http.StatusInternalServerError)
 							return
 						}
 					} else {
@@ -89,12 +94,12 @@ func encrytion(password string) string {
 
 	// Convert the hash to a string and store it in the database
 	hashedPassword := string(hash)
-//	fmt.Println("Hashed password:", hashedPassword)
+	//	fmt.Println("Hashed password:", hashedPassword)
 	return hashedPassword
 
 }
 
-func decryption(providedPassword string, hashedPassword string) bool{
+func decryption(providedPassword string, hashedPassword string) bool {
 	err = bcrypt.CompareHashAndPassword([]byte(hashedPassword), []byte(providedPassword))
 	if err == nil {
 		//fmt.Println("Password is correct")

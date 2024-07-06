@@ -45,6 +45,7 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 			}
 			switch request.RequestType {
 			case "like":
+				fmt.Println("Post is liked")
 				HandleLikeRequest(w, r, user, request)
 			case "delete":
 				HandleDeleteRequest(request)
