@@ -18,10 +18,10 @@ import (
 )
 
 var githubOAuthConfig = &oauth2.Config{
-	// RedirectURL:  "http://localhost:8080/github_callback",
-	// ClientID:     "",
-	// ClientSecret: "",
-	// Scopes:       []string{"user:email"},
+	RedirectURL:  "http://localhost:8080/github_callback",
+	ClientID:     "",
+	ClientSecret: "",
+	Scopes:       []string{"user:email"},
 	Endpoint:     github.Endpoint,
 }
 
