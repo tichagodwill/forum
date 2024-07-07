@@ -18,22 +18,28 @@ import (
 )
 
 var githubOAuthConfig = &oauth2.Config{
-	RedirectURL:  "http://localhost:8080/github_callback",
-	ClientID:     "",
-	ClientSecret: "",
-	Scopes:       []string{"user:email"},
+	// RedirectURL:  "http://localhost:8080/github_callback",
+	// ClientID:     "",
+	// ClientSecret: "",
+	// Scopes:       []string{"user:email"},
 	Endpoint:     github.Endpoint,
 }
 
-var oauthStateString = "random" // A random string for security purposes.
+// var oauthStateString = "random" // A random string for security purposes.
 
 func GithubLoginHandler(w http.ResponseWriter, r *http.Request) {
 	// Redirect to the Github login page
-	http.Redirect(w, r, githubOAuthConfig.AuthCodeURL(oauthStateString), http.StatusFound)
+	http.Redirect(w, r, githubOAuthConfig.AuthCodeURL(generateStateOauthCookie(w)), http.StatusFound)
 }
 
 func GithubCallbackHandler(w http.ResponseWriter, r *http.Request) {
-	if r.FormValue("state") != oauthStateString {
+	cookie, err := r.Cookie("oauthstate")
+	if err != nil {
+		http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
+		return
+	}
+
+	if r.FormValue("state") != cookie.Value {
 		http.Error(w, "Invalid OAuth state", http.StatusBadRequest)
 		return
 	}

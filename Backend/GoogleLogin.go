@@ -22,10 +22,10 @@ import (
 // Google Login
 
 var googleOauthConfig = &oauth2.Config{
-	RedirectURL:  "http://localhost:8080/google_callback",
-	ClientID:     "",
-	ClientSecret: "",
-	Scopes:       []string{"https://www.googleapis.com/auth/userinfo.email", "https://www.googleapis.com/auth/userinfo.profile", "openid"},
+	// RedirectURL:  "http://localhost:8080/google_callback",
+	// ClientID:     "",
+	// ClientSecret: "",
+	// Scopes:       []string{"https://www.googleapis.com/auth/userinfo.email", "https://www.googleapis.com/auth/userinfo.profile", "openid"},
 	Endpoint:     google.Endpoint,
 }
 // var oauthStateString = "random-string" // Use a more secure random generator in production
