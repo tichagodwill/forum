@@ -76,15 +76,26 @@
             <button class="Guest" name="action" value="guest">Continue as a guest</button>
           </div>
         </div>
+        <div class="divider">
+          <span>or</span>
+        </div>
+        <!-- google sign-in -->
         <div>
-          <a href="/google_login">
-            <img src="https://developers.google.com/identity/images/btn_google_signin_light_normal_web.png" alt="Google Sign-In Button"/>
+          <a id="googleBtn" href="/google_login">
+            <img src="https://developers.google.com/static/identity/images/branding_guideline_sample_lt_rd_lg.svg" alt="Google Sign-In Button"/>
           </a>
         </div>
+        <!-- github sign-in -->
         <div>
-          <!-- github -->
-          <a href="/github_login">
-            <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" height="32px" alt="GitHub Sign-In Button"/>
+          <a id="githubBtn" href="/github_login">
+            <!-- <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" height="20px" alt="GitHub Sign-In Button"/> -->
+            <button class="Github" type="button">
+              <img src="../Style/Image/github-mark-white.png" height="24px" alt="GitHub Sign-In Button"/>
+              <span style="display:flex; justify-content: center; align-items: center;">
+                Sign in with
+                <img src="../Style/Image/GitHub_Logo_White.png" height="20px" alt="GitHub Sign-In Button"/>
+              </span>
+            </button>
           </a>
         </div>
       </form>
@@ -92,27 +103,34 @@
   </body>
   <script>
     const button = document.getElementById('button');
-
-  // Add click event listener to the button
-  button.addEventListener('click', function() {
-    sessionStorage.setItem('isGuest', 'false');
-  });
-      const SignUpBtn = document.querySelector('.SignUp')
-      SignUpBtn.addEventListener('click', function(){
-        sessionStorage.setItem('isGuest', 'false');
-        window.location.href = '/SignUp';} )
-      const GuestBtn = document.querySelector('.Guest')
-      GuestBtn.addEventListener('click', function(){
-        sessionStorage.setItem('isGuest', 'true');
-    }
-     )
-
+    // Add click event listener to the button
+    button.addEventListener('click', function () {
+      sessionStorage.setItem('isGuest', 'false');
+    });
+    const SignUpBtn = document.querySelector('.SignUp')
+    SignUpBtn.addEventListener('click', function () {
+      sessionStorage.setItem('isGuest', 'false');
+      window.location.href = '/SignUp';
+    });
+    const GuestBtn = document.querySelector('.Guest')
+    GuestBtn.addEventListener('click', function () {
+      sessionStorage.setItem('isGuest', 'true');
+    });
+    //third party login
+    const googleBtn = document.getElementById('googleBtn');
+    googleBtn.addEventListener('click', function () {
+      sessionStorage.setItem('isGuest', 'false');
+    });
+    const githubBtn = document.getElementById('githubBtn');
+    githubBtn.addEventListener('click', function () {
+      sessionStorage.setItem('isGuest', 'false');
+    });
      
-     function googleSignIn() {
-      // var auth2 = gapi.auth2.getAuthInstance();
-      // auth2.signIn().then(function () {
-      //   console.log('User signed in.');
-      // });
-    }
-    </script>
+    function googleSignIn() {
+    // var auth2 = gapi.auth2.getAuthInstance();
+    // auth2.signIn().then(function () {
+    //   console.log('User signed in.');
+    // });
+  }
+  </script>
 </html>

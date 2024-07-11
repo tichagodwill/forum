@@ -28,8 +28,9 @@ var googleOauthConfig = &oauth2.Config{
 	Scopes:       []string{"https://www.googleapis.com/auth/userinfo.email", "https://www.googleapis.com/auth/userinfo.profile", "openid"},
 	Endpoint:     google.Endpoint,
 }
-// var oauthStateString = "random-string" // Use a more secure random generator in production
 
+// var oauthStateString = "random-string" // Use a more secure random generator in production
+// Generate a random state string
 func generateStateOauthCookie(w http.ResponseWriter) string {
 	var expiration = time.Now().Add(24 * time.Hour)
 	b := make([]byte, 16)
@@ -47,29 +48,42 @@ func GoogleLoginHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func GoogleCallbackHandler(w http.ResponseWriter, r *http.Request) {
+	var tmpl = template.Must(template.ParseFiles("./Pages/Login.html"))
 	cookie, err := r.Cookie("oauthstate")
 	if err != nil {
-		http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
+		errorMessage := "Google Login Failed. Please Try Again"
+		Template(w, tmpl, errorMessage)
 		return
+		// http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
+		// return
 	}
 
 	if r.FormValue("state") != cookie.Value {
-		http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
+		errorMessage := "Google Login Failed. Please Try Again"
+		Template(w, tmpl, errorMessage)
 		return
+		// http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
+		// return
 	}
 
 	token, err := googleOauthConfig.Exchange(context.Background(), r.FormValue("code"))
 	if err != nil {
 		log.Printf("Could not get token: %s\n", err.Error())
-		http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
+		errorMessage := "Google Login Failed. Please Try Again"
+		Template(w, tmpl, errorMessage)
 		return
+		// http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
+		// return
 	}
 	// fmt.Println("Token: ", token.AccessToken)
 	response, err := http.Get("https://www.googleapis.com/oauth2/v2/userinfo?access_token=" + token.AccessToken)
 	if err != nil {
 		log.Printf("Could not create request: %s\n", err.Error())
-		http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
+		errorMessage := "Google Login Failed. Please Try Again"
+		Template(w, tmpl, errorMessage)
 		return
+		// http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
+		// return
 	}
 	defer response.Body.Close()
 
@@ -85,17 +99,19 @@ func GoogleCallbackHandler(w http.ResponseWriter, r *http.Request) {
 	//parse the response body
 	if err := json.NewDecoder(response.Body).Decode(&userInfo); err != nil {
 		log.Printf("Could not parse response: %s\n", err.Error())
-		http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
+		errorMessage := "Google Login Failed. Please Try Again"
+		Template(w, tmpl, errorMessage)
 		return
+		// http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
+		// return
 	}
 
 	// fmt.Fprintf(w, "User Info: %+v\n", userInfo)
 	// print to console
 	fmt.Println(userInfo)
 
-
 	// Account creation and login
-	var tmpl = template.Must(template.ParseFiles("./Pages/Login.html"))
+	// var tmpl = template.Must(template.ParseFiles("./Pages/Login.html"))
 	exists, err := AccountExists(userInfo.Email)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -132,6 +148,7 @@ func GoogleCallbackHandler(w http.ResponseWriter, r *http.Request) {
 		ID, errorMessage, err := AddGoogleAccount(userInfo.Email, userInfo.ID, userInfoUsername)
 		if errorMessage != "" {
 			Template(w, tmpl, errorMessage)
+			return
 		}
 
 		if err != nil {

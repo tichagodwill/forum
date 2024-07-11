@@ -98,9 +98,10 @@ body {
 #button{
   transition: all .09s ease-in-out;
 }
-  #button:hover {
-    transform: scale(1.1);
-  }
+
+#button:hover {
+  transform: scale(1.1);
+}
 /* #button::after {
   content: "";
   position: absolute;
@@ -171,5 +172,64 @@ body {
 .SignUp:hover,
 .Guest:hover {
   color: white;
+  cursor: pointer;
+}
+
+/* Third-party Auth */
+.divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  width: 90%;
+}
+
+.divider::before, .divider::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid white;
+}
+
+.divider:not(:empty)::before {
+  margin-right: .25em;
+}
+
+.divider:not(:empty)::after {
+  margin-left: .25em;
+}
+
+.divider span {
+  color: white;
+  font-size: 14px;
+}
+
+.Github {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  align-items: center;
+
+  background-color: #24292f;
+  color: white;
+
+  width: 175px;
+  height: 40px;
+  border-radius: 30em;
+  font-size: 16px;
+  font-family: inherit;
+  /* margin: 0px; */
+  /* padding: 8px; */
+  border: none;
+  /* position: relative; */
+  overflow: hidden;
+  z-index: 1;
+}
+
+a {
+  text-decoration: none;
+}
+
+.Github:hover {
   cursor: pointer;
 }

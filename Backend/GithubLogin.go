@@ -25,31 +25,38 @@ var githubOAuthConfig = &oauth2.Config{
 	Endpoint:     github.Endpoint,
 }
 
-// var oauthStateString = "random" // A random string for security purposes.
-
 func GithubLoginHandler(w http.ResponseWriter, r *http.Request) {
 	// Redirect to the Github login page
-	http.Redirect(w, r, githubOAuthConfig.AuthCodeURL(generateStateOauthCookie(w)), http.StatusFound)
+	oauthStateString := generateStateOauthCookie(w)
+	http.Redirect(w, r, githubOAuthConfig.AuthCodeURL(oauthStateString), http.StatusFound)
 }
 
 func GithubCallbackHandler(w http.ResponseWriter, r *http.Request) {
+	var tmpl = template.Must(template.ParseFiles("./Pages/Login.html"))
 	cookie, err := r.Cookie("oauthstate")
 	if err != nil {
-		http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
+		errorMessage := "Github Login Failed. Please Try Again"
+		Template(w, tmpl, errorMessage)
 		return
+		// http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
+		// return
 	}
 
 	if r.FormValue("state") != cookie.Value {
-		http.Error(w, "Invalid OAuth state", http.StatusBadRequest)
+		errorMessage := "Github Login Failed. Please Try Again"
+		Template(w, tmpl, errorMessage)
 		return
+		// http.Error(w, "Invalid OAuth state", http.StatusBadRequest)
+		// return
 	}
 	// Get the authorization code from the query string
 	code := r.FormValue("code")
-	fmt.Println("CODE: ", code)
 	// Exchange the authorization code for an access token
 	token, err := githubOAuthConfig.Exchange(context.Background(), code)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		errorMessage := "Github Login Failed. Please Try Again"
+		Template(w, tmpl, errorMessage)
+		// http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 	fmt.Println("Token: ", token)
@@ -75,13 +82,16 @@ func GithubCallbackHandler(w http.ResponseWriter, r *http.Request) {
 	// fmt.Fprint(w, output)
 
 	// Get request to a set URL
-	req, reqerr := http.NewRequest(
+	req, err := http.NewRequest(
 		"GET",
 		"https://api.github.com/user",
 		nil,
 	)
-	if reqerr != nil {
-		log.Panic("API Request creation failed")
+	if err != nil {
+		// log.Panic("API Request creation failed")
+		errorMessage := "Github Login Failed. Please Try Again"
+		Template(w, tmpl, errorMessage)
+		return
 	}
 
 	// Set the Authorization header before sending the request
@@ -90,9 +100,12 @@ func GithubCallbackHandler(w http.ResponseWriter, r *http.Request) {
 	req.Header.Set("Authorization", authorizationHeaderValue)
 
 	// Make the request
-	response, resperr := http.DefaultClient.Do(req)
-	if resperr != nil {
-		log.Panic("Request failed")
+	response, err := http.DefaultClient.Do(req)
+	if err != nil {
+		// log.Panic("Request failed")
+		errorMessage := "Github Login Failed. Please Try Again"
+		Template(w, tmpl, errorMessage)
+		return
 	}
 
 	var userInfo struct {
@@ -107,7 +120,9 @@ func GithubCallbackHandler(w http.ResponseWriter, r *http.Request) {
 	//parse the response body
 	if err := json.NewDecoder(response.Body).Decode(&userInfo); err != nil {
 		log.Printf("Could not parse response: %s\n", err.Error())
-		http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
+		// http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
+		errorMessage := "Github Login Failed. Please Try Again"
+		Template(w, tmpl, errorMessage)
 		return
 	}
 
@@ -115,7 +130,7 @@ func GithubCallbackHandler(w http.ResponseWriter, r *http.Request) {
 	// fmt.Println(userInfo)
 	// fmt.Fprintf(w, "User Info: %+v\n", userInfo)
 
-	var tmpl = template.Must(template.ParseFiles("./Pages/Login.html"))
+	// var tmpl = template.Must(template.ParseFiles("./Pages/Login.html"))
 	exists, err := AccountGithubExists(userInfo.Login)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -126,13 +141,17 @@ func GithubCallbackHandler(w http.ResponseWriter, r *http.Request) {
 		fmt.Println("Signing in with github")
 		ID, err := GetGithubAccountID("", userInfo.Login, userInfo.ID)
 		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
+			errorMessage := "Github Login Failed. Please Try Again"
+			Template(w, tmpl, errorMessage)
 			return
+			// http.Error(w, err.Error(), http.StatusInternalServerError)
+			// return
 		}
 
 		if ID == 0 {
 			errorMessage := "This Account Does Not Exist. Please Try Again"
 			Template(w, tmpl, errorMessage)
+			return
 		} else {
 			sessionID, expt := Cookies(w)
 			SessionID(ID, sessionID, expt)
@@ -145,6 +164,7 @@ func GithubCallbackHandler(w http.ResponseWriter, r *http.Request) {
 		ID, errorMessage, err := AddGithubAccount("", userInfo.Login, userInfo.ID)
 		if errorMessage != "" {
 			Template(w, tmpl, errorMessage)
+			return
 		}
 
 		if err != nil {
@@ -153,7 +173,11 @@ func GithubCallbackHandler(w http.ResponseWriter, r *http.Request) {
 		}
 
 		sessionID, expt := Cookies(w)
-		SessionID(ID, sessionID, expt)
+		err = SessionID(ID, sessionID, expt)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
 		guest = false
 		http.Redirect(w, r, "/HomePage", http.StatusFound)
 	}

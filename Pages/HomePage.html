@@ -508,7 +508,6 @@ function Comment(postId, username, userId) {
       } else if (checkboxName === 'Like' && document.getElementById(`Dislike${checkboxValue}`).checked === true) {
         clickedCheckbox.checked = false
       } else {
-        console.log("this id like");
         fetch("/HomePage", {
           method: "POST",
           headers: {
