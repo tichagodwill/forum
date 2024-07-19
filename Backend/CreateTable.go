@@ -21,7 +21,7 @@ func CreateTables() {
 		Email TEXT UNIQUE NOT NULL,
 		Username TEXT UNIQUE NOT NULL,
 		Password TEXT,
-		GoogleUserID TEXT UNIQUE,
+		AuthUserID TEXT UNIQUE,
 		SessionID TEXT,
 		Expiration TIMESTAMP,
 		UserImg TEXT DEFAULT 'ProfileImage.png'

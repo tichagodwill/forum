@@ -228,7 +228,7 @@ func AddGithubAccount(email, username string, githubUserId int) (int64, string, 
 	// Convert ID int to string
 	IDstring := strconv.Itoa(githubUserId)
 	errorMessage := ""
-	insertQuery := "INSERT INTO accounts (Email, GoogleUserID, Username) VALUES (?, ?, ?) ON CONFLICT(GoogleUserID) DO UPDATE SET Email=excluded.Email, Username=excluded.Username"
+	insertQuery := "INSERT INTO accounts (Email, AuthUserID, Username) VALUES (?, ?, ?) ON CONFLICT(AuthUserID) DO UPDATE SET Email=excluded.Email, Username=excluded.Username"
 
 	result, err := Accountsdb.Exec(insertQuery, email, IDstring, username)
 	if err != nil {
@@ -253,7 +253,7 @@ func GetGithubAccountID(email, username string, githubUserId int) (int64, error)
 	// Convert ID int to string
 	IDstring := strconv.Itoa(githubUserId)
 	// Prepare the SQL statement
-	query := "SELECT id FROM accounts WHERE Email = ? AND Username = ? AND GoogleUserID = ?"
+	query := "SELECT id FROM accounts WHERE Email = ? AND Username = ? AND AuthUserID = ?"
 	stmt, err := Accountsdb.Prepare(query)
 	if err != nil {
 		return 0, err

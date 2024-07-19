@@ -165,7 +165,7 @@ func GoogleCallbackHandler(w http.ResponseWriter, r *http.Request) {
 
 func AddGoogleAccount(email, googleUserId, username string) (int64, string, error) {
 	errorMessage := ""
-	insertQuery := "INSERT INTO accounts (Email, GoogleUserID, Username) VALUES (?, ?, ?) ON CONFLICT(GoogleUserID) DO UPDATE SET Email=excluded.Email, Username=excluded.Username"
+	insertQuery := "INSERT INTO accounts (Email, AuthUserID, Username) VALUES (?, ?, ?) ON CONFLICT(AuthUserID) DO UPDATE SET Email=excluded.Email, Username=excluded.Username"
 
 	result, err := Accountsdb.Exec(insertQuery, email, googleUserId, username)
 	if err != nil {
@@ -188,7 +188,7 @@ func AddGoogleAccount(email, googleUserId, username string) (int64, string, erro
 
 func GetGoogleAccountID(email, username, googleUserId string) (int64, error) {
 	// Prepare the SQL statement
-	query := "SELECT id FROM accounts WHERE Email = ? AND Username = ? AND GoogleUserID = ?"
+	query := "SELECT id FROM accounts WHERE Email = ? AND Username = ? AND AuthUserID = ?"
 	stmt, err := Accountsdb.Prepare(query)
 	if err != nil {
 		return 0, err
